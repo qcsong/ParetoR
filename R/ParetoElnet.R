@@ -200,7 +200,7 @@ cv.ParetoElnet = function(data_cal = NULL,
         out_val = calculate_perf_rrace(data_val, w_cal, prop, sr)
         
         # Regression validation Perf and rrace results
-        model_reg = lm(Perf~., data = subset(data_cal, select = -c(Race_ind, Race_dummy)),
+        model_reg = lm(Perf~., data = as.data.frame(subset(data_cal, select = -c(Race_ind, Race_dummy))),
                        na.action = na.omit)
         w_reg = coef(lm.beta(model_reg))[-1]
         
