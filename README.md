@@ -179,7 +179,7 @@ Example 1: Calibration raw data as input
  &nbsp; &nbsp; &nbsp; &nbsp; n_cal = 100 <br />
  &nbsp; # (2) Subgroup differences (d): standardized mean differences between minority and majority subgroups (i.e., majority - minority), on each predictor and criterion (in applicant pool) <br />
  &nbsp; ## Example <br />
- &nbsp; &nbsp; &nbsp; &nbsp; d <- c(1.00, 0.23, 0.09, 0.33, .30) <br />
+ &nbsp; &nbsp; &nbsp; &nbsp; d <- c(1.00, 0.23, 0.09, 0.33) <br />
  &nbsp; # (3) Correlation matrix (R) = Criterion predictor inter-correlation matrix  <br />
  &nbsp; # Format: Predictor_1, ..., Predictor_n, Criterion <br />
  &nbsp; ## Example <br />
