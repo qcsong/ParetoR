@@ -11,7 +11,7 @@ The current R package provides a set of Pareto-optimal solutions that simultaneo
 
 ## Instructions ##
 
-### Install and Load Package ###
+### Install and Package ###
 
 1. Open an R console or RStudio window. (R can be downloaded for free from https://cran.r-project.org; RStudio can be downloaded for free from https://www.rstudio.com/)
 2. Install R package "ParetoR" through Github by pasting and running the following commands in R console or RStudio:
@@ -87,13 +87,10 @@ The current R package provides a set of Pareto-optimal solutions that simultaneo
 #### Example Implementation ####
 
 1. Specify inputs (example from De Corte, Lievens & Sackett (2007) is given below): <br />
- &nbsp; # (1) Calibration sample size <br />
+ &nbsp; # (1) Subgroup differences (d): standardized mean differences between minority and majority subgroups (i.e., majority - minority), on each predictor and criterion (in applicant pool) <br />
  &nbsp; ## Example <br />
- &nbsp; &nbsp; &nbsp; &nbsp; n_cal = 100 <br />
- &nbsp; # (2) Subgroup differences (d): standardized mean differences between minority and majority subgroups (i.e., majority - minority), on each predictor and criterion (in applicant pool) <br />
- &nbsp; ## Example <br />
- &nbsp; &nbsp; &nbsp; &nbsp; d <- c(1.00, 0.23, 0.09, 0.33, .30) <br />
- &nbsp; # (3) Correlation matrix (R) = Criterion predictor inter-correlation matrix <br />
+ &nbsp; &nbsp; &nbsp; &nbsp; d <- c(1.00, 0.23, 0.09, 0.33) <br />
+ &nbsp; # (2) Correlation matrix (R) = Criterion predictor inter-correlation matrix <br />
  &nbsp; # Format: Predictor_1, ..., Predictor_n, Criterion <br />
  &nbsp; ## Example <br />
  &nbsp; &nbsp; &nbsp; &nbsp; R <- matrix(c(1, .24, .00, .19, .30, <br />
@@ -102,76 +99,31 @@ The current R package provides a set of Pareto-optimal solutions that simultaneo
  &nbsp; &nbsp; &nbsp; &nbsp;           .19, .16, .51, 1, .28, <br />
  &nbsp; &nbsp; &nbsp; &nbsp;           .30, .30, .18, .28, 1), <br />
  &nbsp; &nbsp; &nbsp; &nbsp;          (length(d)+1),(length(d)+1)) <br />
- &nbsp; # (4) Validation sample size <br />
- &nbsp; ## Example <br />
- &nbsp; &nbsp; &nbsp; &nbsp; n_val = 10000 <br />
- &nbsp; # (5) Grid of alpha values to try <br />
- &nbsp; ## Example <br />
- &nbsp; &nbsp; &nbsp; &nbsp; alpha.grid <- seq(0,1,length=3) <br />
- &nbsp; # (6) Grid of lambda values to try <br />
- &nbsp; ## Example <br />
- &nbsp; &nbsp; &nbsp; &nbsp; lambda.grid <- 10^seq(1,-2,length=11) <br />
- &nbsp; # (7) Proportion of minority applicants (prop) = (# of minority applicants)/(total # of applicants) <br />
+ &nbsp; # (3) Proportion of minority applicants (prop) = (# of minority applicants)/(total # of applicants) <br />
  &nbsp; ## Example <br />
  &nbsp; &nbsp; &nbsp; &nbsp; prop <- 1/4 <br />
- &nbsp; # (8) Selection ratio (sr) = (# of selected applicants)/(total # of applicants) <br />
+ &nbsp; # (4) Selection ratio (sr) = (# of selected applicants)/(total # of applicants) <br />
  &nbsp; ## Example <br />
  &nbsp; &nbsp; &nbsp; &nbsp; sr <- 0.10	<br />
- &nbsp; # (9) Spac = number of Pareto points <br />
+ &nbsp; # (5) Spac = number of Pareto points <br />
  &nbsp; ## Example <br />
  &nbsp; &nbsp; &nbsp; &nbsp; Spac <- 21 <br />
 
 2. Paste and run the following command in R console or RStudio:  <br />
  &nbsp; # Fit Regularized Pareto-optimal model with parameter selection via cross-validation <br />
- &nbsp; &nbsp; &nbsp; &nbsp; cv.out = cv.ParetoElnet(n_cal = n_cal, D = D, R = R,  <br />
- &nbsp; &nbsp; &nbsp; &nbsp;                         n_val = n_val, <br />
- &nbsp; &nbsp; &nbsp; &nbsp;                         lambda.grid = lambda.grid, alpha.grid = alpha.grid, <br />
- &nbsp; &nbsp; &nbsp; &nbsp;                         prop = prop, sr = sr, Spac = Spac) <br />
+ &nbsp; &nbsp; &nbsp; &nbsp; out = ParetoElnet(prop = prop, sr = sr, d = d, R = R, Spac = Spac) <br />
 
 #### Output Description ####
 
 1. Regularized Pareto-optimal solutions (i.e., 21 equally-spaced solutions that characterize the Criterion validity – AI ratio trade-off curve, and Predictor Weights at each point along trade-off curve).
 2. Plots (i.e., Criterion validity – AI ratio trade-off curve, and Predictor weights across trade-off points).
 
-
 **cv.ParetoElnet** function <br />
 *Regularized Pareto-optimal method introduced in Study 3 of of Song (2018; dissertation) with parameter selection based on cross-validation method* <br />
 
 #### Example Implementation ####
 
-Example 1: Calibration raw data as input
-
-1. Specify inputs (example from De Corte, Lievens & Sackett (2007) is given below): <br />
- &nbsp; # (1) Calibration data <br />
- &nbsp; # Format: Predictor_1, ..., Predictor_n, Job Performance Validity, Race dummy variable (e.g., 0-minority; 1-majority) <br />
- &nbsp; ## Example <br />
- &nbsp; &nbsp; &nbsp; &nbsp; load(data_cal) <br />
- &nbsp; # (2) Validation sample size <br />
- &nbsp; ## Example <br />
- &nbsp; &nbsp; &nbsp; &nbsp; n_val = 10000 <br />
- &nbsp; # (3) Grid of alpha values to try <br />
- &nbsp; ## Example <br />
- &nbsp; &nbsp; &nbsp; &nbsp; alpha.grid <- seq(0,1,length=3) <br />
- &nbsp; # (4) Grid of lambda values to try <br />
- &nbsp; ## Example <br />
- &nbsp; &nbsp; &nbsp; &nbsp; lambda.grid <- 10^seq(1,-2,length=11) <br />
- &nbsp; # (5) Proportion of minority applicants (prop) = (# of minority applicants)/(total # of applicants) <br />
- &nbsp; ## Example <br />
- &nbsp; &nbsp; &nbsp; &nbsp; prop <- 1/4 <br />
- &nbsp; # (6) Selection ratio (sr) = (# of selected applicants)/(total # of applicants) <br />
- &nbsp; ## Example <br />
- &nbsp; &nbsp; &nbsp; &nbsp; sr <- 0.10 <br />
- &nbsp; # (7) Spac = number of Pareto points <br />
- &nbsp; ## Example <br />
- &nbsp; &nbsp; &nbsp; &nbsp; Spac <- 21 <br />
-
-2. Paste and run the following command in R console or RStudio:  <br />
- &nbsp; # Fit Regularized Pareto-optimal model with parameter selectoin via cross-validation <br />
- &nbsp; &nbsp; &nbsp; &nbsp; cv.out = cv.ParetoElnet(data_cal = data_cal, n_val = 10000,  <br />
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;     lambda.grid = lambda.grid, alpha.grid = alpha.grid, <br />
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 	 prop = prop, sr = sr, Spac = Spac) <br />
-
-&nbsp; Example 2: Statistics of calibration sample data as input (i.e., calibration sample size, standardized subgroup mean difference, predictor and criterion correlation matrix). Input do not include calibration sample raw data set. <br /> 
+&nbsp; Example: Statistics of calibration sample data as input (i.e., calibration sample size, standardized subgroup mean difference, predictor and criterion correlation matrix). Input do not include calibration sample raw data set. <br /> 
 
 1. Specify inputs (example from De Corte, Lievens & Sackett (2007) is given below): <br />
  &nbsp; # (1) Calibration sample size <br />
